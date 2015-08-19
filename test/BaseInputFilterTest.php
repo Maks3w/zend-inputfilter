@@ -977,15 +977,12 @@ class BaseInputFilterTest extends TestCase
 
     /**
      * @group 5270
-     * @requires extension intl
      */
     public function testIsValidWhenValuesSetOnFilters()
     {
         $filter = $this->createDefaultInputFilter();
 
         $foo = new Input();
-        $foo->getFilterChain()->attachByName('stringtrim')
-                              ->attachByName('alpha');
         $foo->getValidatorChain()->attach(new Validator\StringLength(15, 18));
 
         $filter->add($foo, 'foo');
