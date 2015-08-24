@@ -1142,7 +1142,7 @@ class BaseInputFilterTest extends TestCase
             'foo' => 'xyz',
             'bar' => $value,
         ]);
-        $this->assertTrue($filter->isValid(), 'Empty value should mark input filter as valid');
+        $this->assertTrue($filter->isValid(), 'Empty value should mark input filter as valid. ' . json_encode($filter->getMessages()));
     }
 
     /**

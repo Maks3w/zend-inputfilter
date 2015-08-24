@@ -407,7 +407,7 @@ class CollectionInputFilterTest extends TestCase
         $inputFilter->setInputFilter($this->getBaseInputFilter());
         $inputFilter->setData($invalidCollectionData);
 
-        $this->assertFalse($inputFilter->isValid());
+        $this->assertFalse($inputFilter->isValid(), json_encode($inputFilter->getMessages()));
 
         $this->assertCount(3, $inputFilter->getInvalidInput());
         foreach ($inputFilter->getInvalidInput() as $invalidInputs) {
@@ -416,14 +416,26 @@ class CollectionInputFilterTest extends TestCase
 
         $messages = $inputFilter->getMessages();
 
-        $this->assertCount(3, $messages);
-        $this->assertArrayHasKey('foo', $messages[0]);
-        $this->assertArrayHasKey('bar', $messages[1]);
-        $this->assertArrayHasKey('nest', $messages[2]);
-
-        $this->assertCount(1, $messages[0]['foo']);
-        $this->assertCount(1, $messages[1]['bar']);
-        $this->assertCount(1, $messages[2]['nest']);
+        $expectedMessages = [
+            0 => [
+                'foo' => [
+                    'stringLengthTooLong' => 'The input is more than 6 characters long',
+                ],
+            ],
+            1 => [
+                'bar' => [
+                    'notDigits' => 'The input must contain only digits',
+                ],
+            ],
+            2 => [
+                'nest' => [
+                    'foo' => [
+                        'Value is required'
+                    ],
+                ],
+            ],
+        ];
+        $this->assertEquals($expectedMessages, $messages, json_encode($messages));
     }
 
     public function testSetValidationGroupUsingFormStyle()
