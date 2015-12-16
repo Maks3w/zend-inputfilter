@@ -91,19 +91,9 @@ class FileInput extends Input
      */
     public function isEmptyFile($rawValue)
     {
-        if (!is_array($rawValue)) {
-            return true;
-        }
+        $validator = new Validator\NotEmptyFileUploadValidator();
 
-        if (isset($rawValue['error']) && $rawValue['error'] === UPLOAD_ERR_NO_FILE) {
-            return true;
-        }
-
-        if (count($rawValue) === 1 && isset($rawValue[0])) {
-            return $this->isEmptyFile($rawValue[0]);
-        }
-
-        return false;
+        return !$validator->isValid($rawValue);
     }
 
     /**
