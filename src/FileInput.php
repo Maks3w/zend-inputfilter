@@ -86,6 +86,8 @@ class FileInput extends Input
     /**
      * Checks if the raw input value is an empty file input eg: no file was uploaded
      *
+     * @deprecated Add Zend\InputFilter\Validator\NotEmptyFileUploadValidator validator to the ValidatorChain.
+     *
      * @param $rawValue
      * @return bool
      */
